@@ -13,7 +13,9 @@ import tmall.bean.ProductImage;
 import tmall.util.DBUtil;
 
 public class ProductImageDAO {
-	
+	/**
+	 * 为什么定义两个常量
+	 */
 	public static final String type_single = "type_single";
 	public static final String type_detail = "type_detail";
 	
@@ -57,7 +59,9 @@ public class ProductImageDAO {
 		}
 		
 	}
-	
+	/*
+	 * 为什么不需要更新方法？
+	 */
 	public void update(ProductImage bean) {
 		/*String sql = "update productImage set pid = ?, type = ? where id = ? ";
 		try(Connection c = DBUtil.getConnection();
@@ -111,6 +115,9 @@ public class ProductImageDAO {
 		return bean;
 	}
 	
+	/*
+	 * 为什么通过Product和type来获取
+	 */
 	public List<ProductImage> list(Product p, String type) {
 		return list(p, type,0, Short.MAX_VALUE);
 	}

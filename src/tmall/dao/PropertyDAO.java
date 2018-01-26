@@ -13,7 +13,10 @@ import tmall.bean.Property;
 import tmall.util.DBUtil;
 
 public class PropertyDAO {
-	
+	/*
+	 * 为什么通过cid来获取总数？
+	 * 
+	 */
 	public int getTotal(int cid) {
 		int total = 0;
 		try(Connection c = DBUtil.getConnection();
