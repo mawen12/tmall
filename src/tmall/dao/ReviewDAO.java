@@ -134,6 +134,29 @@ public class ReviewDAO {
 		return bean;
 	}
 	/*
+	 * 获取指定产品的评价数目
+	 */
+	public int getCount(int pid) {
+		int count = 0;
+		String sql = "select count(*) from review where pid = ?	";
+		try(Connection c = DBUtil.getConnection();
+			PreparedStatement ps = c.prepareStatement(sql);)
+		{
+			ps.setInt(1, pid);
+			ps.execute();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	/*
 	 * 通过产品获取所有评价
 	 */
 	public List<Review> list(int pid){
@@ -159,7 +182,6 @@ public class ReviewDAO {
 				String content = rs.getString("content");
 				Date createDate = DateUtil.t2d(rs.getTimestamp("timestamp"));
 				int uid = rs.getInt("uid");
-				int pid = rs.getInt("pid");
 				
 				bean.setId(id);
 				bean.setContent(content);
@@ -179,8 +201,24 @@ public class ReviewDAO {
 	 * 判断某个产品的评价是否存在
 	 */
 	public boolean isExist(String content, int pid) {
+		String sql = "select * from review where content = ? and pid = ? ";
+		try(Connection c = DBUtil.getConnection();
+			PreparedStatement ps = c.prepareStatement(sql);)
+		{
+			ps.setString(1, content);
+			ps.setInt(2, pid);
+			ps.execute();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				return true;
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
-		
+		return false;
 	}
 	
 	
