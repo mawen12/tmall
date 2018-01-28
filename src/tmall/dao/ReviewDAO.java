@@ -157,7 +157,7 @@ public class ReviewDAO {
 	
 	
 	/*
-	 * 通过产品获取所有评价
+	 * 获取指定产品的评价
 	 */
 	public List<Review> list(int pid){
 		return list(pid, 0, Short.MAX_VALUE);
