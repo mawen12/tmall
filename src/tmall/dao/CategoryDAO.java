@@ -12,6 +12,8 @@ import tmall.bean.Category;
 import tmall.util.DBUtil;
 
 public class CategoryDAO {
+	
+	//获取总数
 	public int getTotal() {
 		int total = 0;
 		try (Connection c = DBUtil.getConnection();
@@ -27,7 +29,7 @@ public class CategoryDAO {
 		}
 		return total;
 	}
-	
+	//增加
 	public void add(Category bean) {
 		String sql = "INSERT INTO category VALUES(null, ?)";
 		try(Connection c = DBUtil.getConnection();
@@ -44,7 +46,7 @@ public class CategoryDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//修改
 	public void update(Category bean) {
 		String sql = "UPDATE category set name = ? where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -58,7 +60,7 @@ public class CategoryDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//删除
 	public void delete(int id) {
 		try(Connection c = DBUtil.getConnection();
 			Statement s = c.createStatement();)
@@ -69,7 +71,7 @@ public class CategoryDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//根据ID获取
 	public Category get(int id) {
 		Category bean = null;
 		try(Connection c = DBUtil.getConnection();
@@ -88,11 +90,11 @@ public class CategoryDAO {
 		}
 		return bean;
 	}
-	
+	//查询所有
 	public List<Category> list(){
 		return list(0, Short.MAX_VALUE);
 	}
-	
+	//分页查询
 	public List<Category> list(int start, int count){
 		List<Category> beans = new ArrayList<Category>();
 		String sql = "SELECT * FROM category ORDER BY id desc limit ?,?";

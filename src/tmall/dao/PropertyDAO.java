@@ -15,7 +15,7 @@ import tmall.util.DBUtil;
 public class PropertyDAO {
 	/*
 	 * 为什么通过cid来获取总数？
-	 * 
+	 * 用于获取某种分类下的属性总数，用于分页显示
 	 */
 	public int getTotal(int cid) {
 		int total = 0;
@@ -33,7 +33,7 @@ public class PropertyDAO {
 		}
 		return total;
 	}
-	
+	//增加
 	public void add(Property bean) {
 		String sql = "insert into property values(null, ?, ?)";
 		try(Connection c = DBUtil.getConnection();
@@ -53,7 +53,7 @@ public class PropertyDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//修改
 	public void update(Property bean) {
 		String sql = "update property set cid =? , name = ? where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -69,7 +69,7 @@ public class PropertyDAO {
 		}
 		
 	}
-	
+	//删除
 	public void delete(int id) {
 		try(Connection c = DBUtil.getConnection();
 			Statement s = c.createStatement();)
@@ -81,7 +81,7 @@ public class PropertyDAO {
 			e.printStackTrace();
 		}
 	}
-
+	//根据id获取属性对象
 	public Property get(int id) {
 		Property bean = null;
 		try(Connection c = DBUtil.getConnection();
@@ -105,11 +105,13 @@ public class PropertyDAO {
 		}
 		return bean;
 	}
-	
+	/*
+	 * 获取某中分类下的所有属性
+	 */
 	public List<Property> list(int cid){
 		return list(cid,0, Short.MAX_VALUE);
 	}
-	
+	//获取某种分类下的指定范围的属性
 	public List<Property> list(int cid, int start, int count){
 		List<Property> beans = new ArrayList<Property>();
 		Property bean = null;

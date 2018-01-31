@@ -110,7 +110,7 @@ public class UserDAO {
 		}
 		return bean;
 	}
-	//通过用户名获取用户
+	//通过用户名获取用户，用作之后判断用户是否存在
 	public User get(String name) {
 		User bean = null;
 		try(Connection c =DBUtil.getConnection();
@@ -162,12 +162,12 @@ public class UserDAO {
 		}
 		return beans;
 	}
-	
+	//通过get(String name)来获取用户对象，以此判断用户名是否已存在，存在就为false，不存在就为true;
 	public boolean isExist(String name) {
 		User user = get(name);
 		return user!=null;
 	}
-	
+	//根据账号和密码来获取对象，在内存中比较账号以及密码是否正确；
 	public User get(String name, String  password) {
 		User bean = null;
 		String sql = "select * from user where name = ? , password = ?";
