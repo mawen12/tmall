@@ -3,6 +3,8 @@ package tmall.bean;
 import java.util.Date;
 import java.util.List;
 
+import tmall.dao.OrderDAO;
+
 public class Order {
 	private int id;
 	private String orderCode;
