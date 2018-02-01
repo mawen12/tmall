@@ -14,11 +14,13 @@ import tmall.util.DBUtil;
 
 public class ProductImageDAO {
 	/**
-	 * 为什么定义两个常量
+	 * 为什么定义两个常量？
+	 * type_single:单个图片
+	 * type_detail:详情图片
 	 */
 	public static final String type_single = "type_single";
 	public static final String type_detail = "type_detail";
-	
+	//获取总数
 	public int getTotal() {
 		int total = 0;
 		
@@ -38,7 +40,7 @@ public class ProductImageDAO {
 		}
 		return total;
 	}
-	
+	//增加
 	public void add(ProductImage bean) {
 		String sql = "insert into productImage values(null, ?, ?)";
 		try(Connection c = DBUtil.getConnection();
@@ -61,22 +63,12 @@ public class ProductImageDAO {
 	}
 	/*
 	 * 为什么不需要更新方法？
+	 * 业务上不需要此功能
 	 */
 	public void update(ProductImage bean) {
-		/*String sql = "update productImage set pid = ?, type = ? where id = ? ";
-		try(Connection c = DBUtil.getConnection();
-			PreparedStatement ps = c.prepareStatement(sql);)
-		{
-			ps.setInt(1, bean.getProduct().getId());
-			ps.setString(2, bean.getType());
-			ps.setInt(3, bean.getId());
-			ps.execute();
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}*/
+		
 	}
-	
+	//删除
 	public void delete(int id) {
 		String sql = "delete from productImage where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -89,7 +81,7 @@ public class ProductImageDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//查询
 	public ProductImage get(int id) {
 		ProductImage bean = null;
 		String sql = "select * from productImage where id = ?";
@@ -117,11 +109,12 @@ public class ProductImageDAO {
 	
 	/*
 	 * 为什么通过Product和type来获取
+	 * 获取产品的指定类型的所有图片
 	 */
 	public List<ProductImage> list(Product p, String type) {
 		return list(p, type,0, Short.MAX_VALUE);
 	}
-	
+	//获取产品的指定类型的图片
 	public List<ProductImage> list(Product p, String type, int start, int count){
 		List<ProductImage> beans = new ArrayList<ProductImage>();
 		String sql = "select * from productImage where pid = ? and type = ? order by id desc limit (null, ?, ?)";

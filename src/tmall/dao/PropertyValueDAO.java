@@ -13,7 +13,7 @@ import tmall.bean.PropertyValue;
 import tmall.util.DBUtil;
 
 public class PropertyValueDAO {
-	
+	//获取总数
 	public int getTotal() {
 		int total = 0;
 		String sql = "select count(*) from propertyValue";
@@ -30,7 +30,7 @@ public class PropertyValueDAO {
 		}
 		return total;
 	}
-	
+	//增加
 	public void add(PropertyValue	bean) {
 		String sql = "insert into propertyValue values(null, ?, ?, ?)";
 		try(Connection c = DBUtil.getConnection();
@@ -55,7 +55,7 @@ public class PropertyValueDAO {
 		}
 		
 	}
-	
+	//修改
 	public void update(PropertyValue bean) {
 		String sql = "update propertyValue set pid = ?, ptid = ?, value = ? where id = ? ";
 		try(Connection c = DBUtil.getConnection();
@@ -72,7 +72,7 @@ public class PropertyValueDAO {
 		}
 		
 	}
-	
+	//删除
 	public void delete(int id) {
 		String sql = "delete from propertyValue where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -86,7 +86,7 @@ public class PropertyValueDAO {
 		}
 		
 	}
-	
+	//查询
 	public PropertyValue get(int id) {
 		PropertyValue bean = null;
 		String sql = "select * from propertyValue where id = ?";
@@ -145,11 +145,11 @@ public class PropertyValueDAO {
 		return bean;
 	}
 	
-	
+	//获取所有属性值
 	public List<PropertyValue> list(){
 		return list(0, Short.MAX_VALUE);
 	}
-	
+	//分页查询
 	public List<PropertyValue> list(int start, int count){
 		List<PropertyValue> beans = new ArrayList<PropertyValue>();
 		PropertyValue bean = null;
@@ -182,8 +182,14 @@ public class PropertyValueDAO {
 	}
 	/*
 	 * 增加通过Product的对象初始化的方法
+	 * 1、通过分类获取所有属性
+	 * 2、遍历每一个属性
+	 * 3.1、根据属性和产品获取属性值
+	 * 3.2、如果属性值不存在，就创建一个对象
 	 */
 	public void init(Product p) {
+		//通过PropertyDAO来获取该产品所在分类下的所有属性值
+		
 		List<Property> pts = new PropertyDAO().list(p.getCategory().getId());
 		
 		for(Property pt:pts) {

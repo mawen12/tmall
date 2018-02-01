@@ -76,18 +76,6 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
-
-	/*public void delete (String name) {
-		try(Connection c = DBUtil.getConnection();
-			Statement s = c.createStatement();)
-		{
-			String sql = "delete from user where name = "+ name;
-			s.execute(sql);
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}*/
 	//通过id获取用户
 	public User get(int id) {
 		User bean = null;
@@ -110,7 +98,7 @@ public class UserDAO {
 		}
 		return bean;
 	}
-	//通过用户名获取用户，用作之后判断用户是否存在
+	//通过用户名获取用户，用于之后判断用户是否存在
 	public User get(String name) {
 		User bean = null;
 		try(Connection c =DBUtil.getConnection();
