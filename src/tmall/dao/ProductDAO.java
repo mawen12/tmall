@@ -40,14 +40,13 @@ public class ProductDAO {
 		try(Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);)
 		{
-			ps.setInt(1, bean.getId());
-			ps.setString(2, bean.getName());
-			ps.setString(3, bean.getSubTitle());
-			ps.setFloat(4, bean.getOrignalPrice());
-			ps.setFloat(5, bean.getPromotePrice());
-			ps.setInt(6, bean.getSaleCount());
-			ps.setInt(7,  bean.getCategory().getId());
-			ps.setTimestamp(8, DateUtil.d2t(bean.getCreateDate()));
+			ps.setString(1, bean.getName());
+			ps.setString(2, bean.getSubTitle());
+			ps.setFloat(3, bean.getOrignalPrice());
+			ps.setFloat(4, bean.getPromotePrice());
+			ps.setInt(5, bean.getStock());
+			ps.setInt(6,  bean.getCategory().getId());
+			ps.setTimestamp(7, DateUtil.d2t(bean.getCreateDate()));
 			ps.execute();
 			
 			ResultSet rs = ps.getGeneratedKeys();
@@ -63,7 +62,7 @@ public class ProductDAO {
 	
 	public void update(Product bean) {
 		String sql = "update product set name = ?, subTitle = ?, orignalPrice = ?, promotePrice = ?,"
-				+ " stack = ?, cid = ?, createDate = ?  where id = ? ";
+				+ " stock = ?, cid = ?, createDate = ?  where id = ? ";
 		try(Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);)
 		{
@@ -181,7 +180,7 @@ public class ProductDAO {
 	public List<Product> list(int cid, int start, int count){
 		List<Product> beans = new ArrayList<Product>();
 		Product bean = null;
-		String sql = "select * from product where cid = ? order by id desc limit (null, ?, ?)	";
+		String sql = "select * from product where cid = ? order by id desc limit ?, ?";
 		try(Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);)
 		{
@@ -219,4 +218,32 @@ public class ProductDAO {
 		return beans;
 	}
 	
+	public List<Product> list(){
+		return list(0, Short.MAX_VALUE);
+	}
+	
+	public List<Product> list(int start, int count){
+		List<Product> beans = new ArrayList<Product>();
+		Product bean = null;
+		String sql = "select * from product order by id desc limit ?,?";
+		try(Connection c = DBUtil.getConnection();
+			PreparedStatement ps = c.prepareStatement(sql);)
+		{
+			ps.setInt(1, start);
+			ps.setInt(2, count);
+			ps.execute();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			while(rs.next()) {
+				bean = new Product();
+				
+				
+				
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

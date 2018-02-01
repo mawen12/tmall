@@ -14,7 +14,7 @@ import tmall.util.DBUtil;
 import tmall.util.DateUtil;
 
 public class ReviewDAO {
-	
+	//获取总数
 	public int getTotal() {
 		int total = 0;
 		String sql = "select count(*) from review ";
@@ -53,7 +53,7 @@ public class ReviewDAO {
 		}
 		return total;
 	}
-	
+	//增加
 	public void add(Review bean) {
 		String sql = "insert intp review values(null, ?, ?, ?, ?)";
 		try(Connection c = DBUtil.getConnection();
@@ -73,7 +73,7 @@ public class ReviewDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//修改
 	public void update (Review bean) {
 		String sql = "update review set content = ?, createDate = ?, uid = ?, pid = ? where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -90,7 +90,7 @@ public class ReviewDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//删除
 	public void delete(int id) {
 		String sql = "delete from review where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -103,7 +103,7 @@ public class ReviewDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//查询
 	public Review get(int id) {
 		Review bean = new Review();
 		String sql = "select * from review where id = ?";
@@ -148,21 +148,22 @@ public class ReviewDAO {
 			ResultSet rs = ps.getGeneratedKeys();
 			while(rs.next()) {
 				count = rs.getInt(1);
+				return count;
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return count;
+		return 0;
 	}
 	
 	
 	/*
-	 * 获取指定产品的评价
+	 * 获取指定产品的所有评价
 	 */
 	public List<Review> list(int pid){
 		return list(pid, 0, Short.MAX_VALUE);
 	}
-	
+	//分页查询
 	public List<Review> list(int pid , int start, int count){
 		List<Review> beans = new ArrayList<Review>();
 		Review bean = null;

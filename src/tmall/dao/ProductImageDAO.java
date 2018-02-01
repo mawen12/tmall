@@ -18,8 +18,8 @@ public class ProductImageDAO {
 	 * type_single:单个图片
 	 * type_detail:详情图片
 	 */
-	public static final String type_single = "type_single";
-	public static final String type_detail = "type_detail";
+	public static final String TYPE_SINGLE = "type_single";
+	public static final String TYPE_DETAIL = "type_detail";
 	//获取总数
 	public int getTotal() {
 		int total = 0;
@@ -117,7 +117,7 @@ public class ProductImageDAO {
 	//获取产品的指定类型的图片
 	public List<ProductImage> list(Product p, String type, int start, int count){
 		List<ProductImage> beans = new ArrayList<ProductImage>();
-		String sql = "select * from productImage where pid = ? and type = ? order by id desc limit (null, ?, ?)";
+		String sql = "select * from productImage where pid = ? and type = ? order by id desc limit ?, ?";
 		try(Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);)
 		{

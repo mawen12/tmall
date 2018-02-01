@@ -123,22 +123,22 @@ public class Order {
 	public String getSatusDesc() {
 		String desc = "未知";
 		switch(status) {
-			case OrderDAO.waitPay:
+			case OrderDAO.WAITPAY:
 				desc="待付款";
 				break;
-			case OrderDAO.waitDelivery:
+			case OrderDAO.WAITDELIVERY:
 				desc="待发货";
 				break;
-			case OrderDAO.waitConfirm:
+			case OrderDAO.WAITCONFIRM:
 				desc="待收货";
 				break;
-			case OrderDAO.waitReview:
+			case OrderDAO.WAITREVIEW:
 				desc="待评价";
 				break;
-			case OrderDAO.finish:
+			case OrderDAO.FINISH:
 				desc="完成";
 				break;
-			case OrderDAO.delete:
+			case OrderDAO.DELETE:
 				desc="删除";
 				break;
 			default:
