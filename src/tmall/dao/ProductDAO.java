@@ -15,7 +15,7 @@ import tmall.util.DBUtil;
 import tmall.util.DateUtil;
 
 public class ProductDAO {
-	
+	//获取指定分类下的总数
 	public int getTotal(int cid) {
 		int total = 0;
 		String sql = "select count(*) from product where cid = ?  ";
@@ -36,7 +36,7 @@ public class ProductDAO {
 		}
 		return total;
 	}
-	
+	//增加
 	public void add(Product bean) {
 		String sql = "insert into product values(?, ?, ?, ?, ?, ?, ?, ?)";
 		try(Connection c = DBUtil.getConnection();
@@ -61,7 +61,7 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//修改
 	public void update(Product bean) {
 		String sql = "update product set name = ?, subTitle = ?, orignalPrice = ?, promotePrice = ?,"
 				+ " stock = ?, cid = ?, createDate = ?  where id = ? ";
@@ -82,7 +82,7 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//删除
 	public void delete(int id) {
 		String sql = "delete from product where id = ?";
 		try(Connection c = DBUtil.getConnection();
@@ -96,7 +96,7 @@ public class ProductDAO {
 		}
 		
 	}
-	
+	//查询
 	public Product get(int id) {
 		Product bean = null;
 		String sql = "select * from product where id = ?";
@@ -133,11 +133,11 @@ public class ProductDAO {
 		}
 		return bean;
 	}
-	
+	//获取指定分类下所有产品
 	public List<Product> list(int cid){
 		return list(cid, 0, Short.MAX_VALUE);
 	}
-	
+	//分页查询
 	public List<Product> list(int cid, int start, int count){
 		List<Product> beans = new ArrayList<Product>();
 		Product bean = null;
@@ -178,11 +178,11 @@ public class ProductDAO {
 		}
 		return beans;
 	}
-	
+	//获取所有产品
 	public List<Product> list(){
 		return list(0, Short.MAX_VALUE);
 	}
-	
+	//分页查询
 	public List<Product> list(int start, int count){
 		List<Product> beans = new ArrayList<Product>();
 		Product bean = null;
@@ -234,7 +234,7 @@ public class ProductDAO {
 			fill(c);
 		}
 	}
-	
+	//按行设置产品数目
 	public void fillByRow(List<Category> cs) {
 		int productNumberEachRow = 8;
 		for (Category c : cs) {
@@ -250,14 +250,14 @@ public class ProductDAO {
 		}
 		
 	}
-	
+	//设置产品主图片
 	public void setFirstProductImage(Product p) {
 		List<ProductImage> pis = new ProductImageDAO().list(p, ProductImageDAO.TYPE_SINGLE);
 		if(!pis.isEmpty()) {
 			p.setFirstProductImage(pis.get(0));
 		}
 	}
-	
+	//设置销售和评价数量
 	public void setSaleAndReviewNumber (Product p) {
 		int saleCount = new OrderItemDAO().getSaleCount(p.getId());
 		p.setSaleCount(saleCount);
@@ -271,7 +271,7 @@ public class ProductDAO {
 			setSaleAndReviewNumber(p);
 		}
 	}
-	
+	//关键字查询
 	public List<Product> search(String keyword, int start, int count){
 		List<Product> beans = new ArrayList<Product>();
 		if(null == keyword || 0 == keyword.trim().length()) {
