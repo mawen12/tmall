@@ -23,6 +23,7 @@ import tmall.dao.PropertyDAO;
 import tmall.dao.PropertyValueDAO;
 import tmall.dao.ReviewDAO;
 import tmall.dao.UserDAO;
+import tmall.util.Page;
 
 public abstract class BaseBackServlet extends HttpServlet {
 	
@@ -108,8 +109,6 @@ public abstract class BaseBackServlet extends HttpServlet {
 				}
 						
 			}
-			
-			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
