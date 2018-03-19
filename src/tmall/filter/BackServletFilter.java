@@ -13,52 +13,46 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
-/**
+/*
  * 定义一个拦截器，对地址栏所有的访问进行拦截，并对/admin开头的地址进行操作
- * @author mw
- *
  */
 public class BackServletFilter implements Filter {
 
+	@Override
 	public void destroy() {
 		
 	}
-	
-	
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
-			throws IOException, ServletException {
-		//类型强制转换
-		HttpServletRequest request = (HttpServletRequest)req;
-		HttpServletResponse response = (HttpServletResponse)res;
 
-		/*
-		 * 输入：http://127.0.0.1:8080/tmall/admin_category_list
-		 * 返回：/tmall
-		 */
-		String contextPath = request.getServletContext().getContextPath();
+	/*过滤器的逻辑业务方法*/
+	@Override
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest)req;
+		HttpServletResponse response = (HttpServletResponse)resp;
 		
-		/*
-		 * getRequestURI()：返回除去host部分的路径
-		 * 输入：http://127.0.0.1:8080/tmall/admin_category_list
-		 * 返回：/tmall/admin_category_list
-		 */
+		String contextPath = request.getServletContext().getContextPath();
 		String uri = request.getRequestURI();
-		uri = StringUtils.remove(uri, contextPath);///admin_category_list
+		//http://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html#remove-java.lang.String-char-
+		/*remove()：从uri中移除与contextPath共同的部分*/
+		uri = StringUtils.remove(uri, contextPath);
 		if(uri.startsWith("/admin_")) {
-			String servletPath = StringUtils.substringBetween(uri, "_", "_") + "Servlet";//categoryServlet
-			String method = StringUtils.substringAfterLast(uri, "_");//list
-			//在request对象中设置method属性，并赋值为method；与session不同，只能在同一个请求中来访问
+			/*substringBetween()：获取uri中第一次出现在两个"_"之间的字符串*/
+			String servletPath = StringUtils.substringBetween(uri, "_", "_");//category
+			/*substringAfterLast()：获取在最后一个"_"后面的字符串*/
+			String method = StringUtils.substringAfterLast(uri, "_");
 			request.setAttribute("method", method);
-			//将客户端的请求转向(forward)到getRequestDispatcher()方法中参数定义的页面
-			req.getRequestDispatcher("/" + servletPath).forward(request, response);
+			request.getRequestDispatcher("/"+servletPath).forward(request, response);
 			return;
 		}
+		//该方法的调用会将请求转发给下一个过滤器或目标资源
 		chain.doFilter(request, response);
 		
 	}
 
+	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		
 	}
-
+	
+	
 }
